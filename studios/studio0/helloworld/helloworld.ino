@@ -1,6 +1,6 @@
 /* helloworld
  *
- * output simple hello message
+ * output simple Hello message
  *
  */
 
