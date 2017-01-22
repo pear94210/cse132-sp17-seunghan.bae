@@ -1,4 +1,4 @@
-// Name(s): 
+// Name(s): Seunghan Bae
 
 void setup() {  
   Serial.begin(9600);
@@ -66,11 +66,13 @@ void loop() {
 
 // Return an int
 int shiftRight(int num, int n){
+  num = num >> n;  
   return num;
 }
 
 // Return an int
 int shiftLeft(int num, int n){
+  num = num << n;
   return num;
 }
 
