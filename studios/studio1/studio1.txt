@@ -1,0 +1,24 @@
+2.1.1
+1. 1010(2) = 10(10)
+2. 68(10) = 1000100(2)
+3. 20(10) = 32(6)
+
+2.1.2
+1. 10100101(2) = 0xa5
+2. 0xf1 = 11110001(2)
+3. 4 digits of binary <-> 1 digit of hex
+4. 0~9 + a~z = 10 + 26 = 36
+
+3.2
+- LEFT-SHIFT : shifts binary one decimal to the left (thus x2)
+- RIGHT-SHIFT : shifts binary one decimal to the right (thus x1/2)
+- INVERSE : 0 <-> 1 (all 16 bits)
+
+- when number > 32768, then LEFT-SHIFT does not x2 the number (due to overflow)
+- how to avoid overflow : do not use numbers that are too big / use other types (long, etc.)
+
+4.1
+state = up4;
+Serial.print(state);
+
+// 4

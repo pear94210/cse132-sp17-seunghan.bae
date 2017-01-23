@@ -7,7 +7,7 @@ void setup() {
   
   Serial.begin(9600);
 
-  unsigned a = 100;    //Change This Number
+  unsigned a = 34000;    //Change This Number
 
 
   //SHIFTING
