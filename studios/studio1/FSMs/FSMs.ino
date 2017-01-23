@@ -1,4 +1,4 @@
-// Name(s): 
+// Name(s): Seunghan Bae / Skylar Nam
 
 enum State {
   up0,        // 0

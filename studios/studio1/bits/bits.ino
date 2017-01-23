@@ -1,4 +1,4 @@
-// Name(s): 
+// Name(s): Seunghan Bae / Skylar Nam
 
 #include "bits.h"
 
