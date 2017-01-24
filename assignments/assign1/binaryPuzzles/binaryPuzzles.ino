@@ -79,30 +79,33 @@ int shiftLeft(int num, int n){
 /// The remaining functions should return 1 (true) if the condition is met and 0 (false) if it is not
 
 int hasAOne(int num) {
-  return num;
+  boolean b = (num | 0);
+  return b;
 }
 
 int hasAZero(int num) {
-  return num;
+  boolean b = (~num | 0);
+  return b;
 }
 
 int leastSigHasAOne(int num) {
-  return num;
+  boolean b = ((num << 8) >> 8) | 0;
+  return b;
 }
 
 int isNegativeInt(int num) {
-  return num;
+  return -(num >> 15);
 }
 
 int isNegativeLong(long num) {
-  return num;
+  return -(num >> 31);
 }
 
 int isNegativeChar(char num) {
-  return num;
+  return -(num >> 7);
 }
 
 int negate(int num) {
-  return num;
+  return ~num + 1;
 }
 
