@@ -52,6 +52,8 @@ State nextState(State state){
        
     case up1:
       bit1 = 1;
+      bit2 = 0;
+      bit3 = 0;
       pprint(state);
       if (checkReverse() == 0) {
         state = up2;
@@ -64,16 +66,27 @@ State nextState(State state){
     case up2:
       bit1 = 0;
       bit2 = 1;
+      bit3 = 0;
       pprint(state);
-      if (checkReverse() == 0) state = up3;
-      else state = down1;
+      if (checkReverse() == 0) {
+        state = up3;
+      } else {
+        Serial.println("--Reverse--");
+        state = down1;
+      }
       break;
 
     case up3:
       bit1 = 1;
+      bit2 = 1;
+      bit3 = 0;
       pprint(state);
-      if (checkReverse() == 0) state = up4;
-      else state = down2;
+      if (checkReverse() == 0) {
+        state = up4;
+      } else {
+        Serial.println("--Reverse--");
+        state = down2;
+      }
       break;
 
     case up4:
@@ -81,92 +94,155 @@ State nextState(State state){
       bit2 = 0;
       bit3 = 1;
       pprint(state);
-      if (checkReverse() == 0) state = up5;
-      else state = down3;
+      if (checkReverse() == 0) {
+        state = up5;
+      } else {
+        Serial.println("--Reverse--");
+        state = down3;
+      }
       break;
 
     case up5:
       bit1 = 1;
+      bit2 = 0;
+      bit3 = 1;
       pprint(state);
-      if (checkReverse() == 0) state = up6;
-      else state = down4;
+      if (checkReverse() == 0) {
+        state = up6;
+      } else {
+        Serial.println("--Reverse--");
+        state = down4;
+      }
       break;
 
     case up6:
       bit1 = 0;
       bit2 = 1;
+      bit3 = 1;
       pprint(state);
-      if (checkReverse() == 0) state = up7;
-      else state = down5;
+      if (checkReverse() == 0) {
+        state = up7;
+      } else {
+        Serial.println("--Reverse--");
+        state = down5;
+      }
       break;
 
     case up7:
       bit1 = 1;
+      bit2 = 1;
+      bit3 = 1;
       pprint(state);
-      if (checkReverse() == 0) state = up0;
-      else state = down6;
+      if (checkReverse() == 0) {
+        state = up0;
+      } else {
+        Serial.println("--Reverse--");
+        state = down6;
+      }
       break;
 
     case down0:
       bit1 = 0;
       bit2 = 0;
       bit3 = 0;
-      pprint(state);
-      if (checkReverse() == 0) state = down7;
-      else state = up1;
+      pprint(state - 8);
+      if (checkReverse() == 1) {
+        state = down7;
+      } else {
+        Serial.println("--Reverse--");
+        state = up1;
+      }
       break;
        
     case down1:
       bit1 = 1;
-      pprint(state);
-      if (checkReverse() == 0) state = down0;
-      else state = up2;
+      bit2 = 0;
+      bit3 = 0;
+      pprint(state - 8);
+      if (checkReverse() == 1) {
+        state = down0;
+      } else {
+        Serial.println("--Reverse--");
+        state = up2;
+      }
       break;
 
     case down2:
       bit1 = 0;
       bit2 = 1;
-      pprint(state);
-      if (checkReverse() == 0) state = down1;
-      else state = up3;
+      bit3 = 0;
+      pprint(state - 8);
+      if (checkReverse() == 1) {
+        state = down1;
+      } else {
+        Serial.println("--Reverse--");
+        state = up3;
+      }
       break;
 
     case down3:
       bit1 = 1;
-      pprint(state);
-      if (checkReverse() == 0) state = down2;
-      else state = up4;
+      bit2 = 1;
+      bit3 = 0;
+      pprint(state - 8);
+      if (checkReverse() == 1) {
+        state = down2;
+      } else {
+        Serial.println("--Reverse--");
+        state = up4;
+      }
       break;
 
     case down4:
       bit1 = 0;
       bit2 = 0;
       bit3 = 1;
-      pprint(state);
-      if (checkReverse() == 0) state = down3;
-      else state = up5;
+      pprint(state - 8);
+      if (checkReverse() == 1) {
+        state = down3;
+      } else {
+        Serial.println("--Reverse--");
+        state = up5;
+      }
       break;
 
     case down5:
       bit1 = 1;
-      pprint(state);
-      if (checkReverse() == 0) state = down4;
-      else state = up6;
+      bit2 = 0;
+      bit3 = 1;
+      pprint(state - 8);
+      if (checkReverse() == 1) {
+        state = down4;
+      } else {
+        Serial.println("--Reverse--");
+        state = up6;
+      }
       break;
 
     case down6:
       bit1 = 0;
       bit2 = 1;
-      pprint(state);
-      if (checkReverse() == 0) state = down5;
-      else state = up7;
+      bit3 = 1;
+      pprint(state - 8);
+      if (checkReverse() == 1) {
+        state = down5;
+      } else {
+        Serial.println("--Reverse--");
+        state = up7;
+      }
       break;
 
     case down7:
       bit1 = 1;
-      pprint(state);
-      if (checkReverse() == 0) state = down6;
-      else state = up0;
+      bit2 = 1;
+      bit3 = 1;
+      pprint(state - 8);
+      if (checkReverse() == 1) {
+        state = down6;
+      } else {
+        Serial.println("--Reverse--");
+        state = up0;
+      }
       break; 
   }
   return state;
