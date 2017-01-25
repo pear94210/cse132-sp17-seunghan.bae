@@ -94,15 +94,18 @@ int leastSigHasAOne(int num) {
 }
 
 int isNegativeInt(int num) {
-  return -(num >> 15);
+  boolean b = num >> 15;
+  return b;
 }
 
 int isNegativeLong(long num) {
-  return -(num >> 31);
+  boolean b = num >> 31;
+  return b;
 }
 
 int isNegativeChar(char num) {
-  return -(num >> 7);
+  boolean b = num >> 7;
+  return b;
 }
 
 int negate(int num) {
