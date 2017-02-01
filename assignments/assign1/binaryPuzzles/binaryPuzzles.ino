@@ -89,7 +89,7 @@ int hasAZero(int num) {
 }
 
 int leastSigHasAOne(int num) {
-  boolean b = ((num << 8) >> 8) | 0;
+  boolean b = (num << 8) | 0;
   return b;
 }
 
