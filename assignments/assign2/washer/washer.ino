@@ -2,12 +2,11 @@
 
 enum State {
   idle,
-  ecnWash,
-  ecnDry,
-  dlxWash,
-  dlxDry,
-  sprWash,
-  sprDry
+  cold5,
+  hot7,
+  medium7,
+  dry2,
+  dry7,
 };
 
 State washState = idle;
@@ -34,29 +33,50 @@ State washer(State state) {
       digitalWrite(13, LOW);
       if (digitalRead(3) == 0) {
         if (analogRead(0) > 682) {
-          state = ecnWash;
-        } else if (analogRead(0) < 341) {
-          state = sprWash;
+          state = cold5;
         } else {
-          state = dlxWash;
+          state = hot7;
         }
+      } else {
+        state = idle;
       }
       break;
 
-    case ecnWash:
-      Serial.println("Economy Wash");
+    case cold5:
+      Serial.println("cold wash for 5 min");
       digitalWrite(4, HIGH);
       digitalWrite(13, HIGH);
       delay(5000);
       if (analogRead(0) > 682) {
-        state = ecnDry;
+        state = dry2;
       } else {
-        state = dlxDry;
+        state = dry7;
       }
       break;
 
-    case ecnDry:
-      Serial.println("Economy Dry");
+    case hot7:
+      Serial.println("hot wash for 7 min");
+      digitalWrite(5, HIGH);
+      digitalWrite(13, HIGH);
+      delay(7000);
+      if (analogRead(0) > 682) {
+        state = dry2;
+      } else if (analogRead(0) < 341) {
+        state = medium7;
+      } else {
+        state = dry7;
+      }
+      break;
+
+    case medium7:
+      Serial.println("medium wash for 7 min");
+      digitalWrite(4, HIGH);
+      delay(7000);
+      state = dry7;
+      break;
+
+    case dry2:
+      Serial.println("dry for 2 min");
       digitalWrite(4, LOW);
       digitalWrite(5, LOW);
       digitalWrite(6, HIGH);
@@ -64,43 +84,8 @@ State washer(State state) {
       state = idle;
       break;
 
-    case dlxWash:
-      Serial.println("Deluxe Wash");
-      digitalWrite(5, HIGH);
-      digitalWrite(13, HIGH);
-      delay(7000);
-      if (analogRead(0) > 682) {
-        state = ecnDry;
-      } else {
-        state = dlxDry;
-      }
-      break;
-
-    case dlxDry:
-      Serial.println("Deluxe Dry");
-      digitalWrite(4, LOW);
-      digitalWrite(5, LOW);
-      digitalWrite(6, HIGH);
-      delay(7000);
-      state = idle;
-      break;
-
-    case sprWash:
-      Serial.println("Super Deluxe Wash");
-      digitalWrite(5, HIGH);
-      digitalWrite(13, HIGH);
-      delay(7000);
-      if (analogRead(0) > 682) {
-        state = ecnDry;
-      } else {
-        digitalWrite(4, HIGH);
-        delay(7000);
-        state = sprDry;
-      }
-      break;
-
-    case sprDry:
-      Serial.println("Super Deluxe Dry");
+    case dry7:
+      Serial.println("dry for 7 min");
       digitalWrite(4, LOW);
       digitalWrite(5, LOW);
       digitalWrite(6, HIGH);
