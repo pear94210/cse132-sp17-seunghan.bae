@@ -89,7 +89,6 @@ void light(State state) {
       break;
 
     case pedestrianGo:
-      digitalWrite(8, LOW);
       digitalWrite(9, HIGH);
       break;
 
@@ -101,7 +100,7 @@ void light(State state) {
 
 void blinkLight(int n) {
   unsigned long now = millis();
-  if((now - blinkTime) >= blinkPeriod) {
+  if(now - blinkTime >= blinkPeriod) {
     digitalWrite(n, !digitalRead(n));
     blinkTime += blinkPeriod;
   }
