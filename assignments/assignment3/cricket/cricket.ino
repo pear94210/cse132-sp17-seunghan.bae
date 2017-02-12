@@ -52,19 +52,16 @@ void readTemp() {
 }
 
 float getAvgTemp() {
-  int avgCount;
-  if (count < FILTER_COUNTS) {
-    avgCount = count;
-  } else {
-    avgCount = FILTER_COUNTS;
-  }
-
   float tempSum = 0;
   for (int i = 0; i < FILTER_COUNTS; i++) {
     tempSum += temperatures[i];
   }
-
-  return tempSum / avgCount;
+  
+  if (count < FILTER_COUNTS) {
+    return tempSum / count;
+  } else {
+    return tempSum / FILTER_COUNTS;
+  }
 }
 
 void blinkLight(int n) {
