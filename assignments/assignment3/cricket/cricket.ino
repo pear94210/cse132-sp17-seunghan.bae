@@ -38,6 +38,7 @@ void loop() {
     Serial.print(temperatures[(count-1) % FILTER_COUNTS]);
     Serial.print(" ");
     Serial.println(getAvgTemp());
+    
     deltaTime += deltaPeriod;
   }
 
