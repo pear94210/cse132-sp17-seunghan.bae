@@ -41,7 +41,6 @@ void loop() {
     
     deltaTime += deltaPeriod;
   }
-
   blinkLight(12);
 }
 
@@ -66,10 +65,19 @@ float getAvgTemp() {
 }
 
 void blinkLight(int n) {
-  unsigned long blinkPeriod = (30000 / ((7 * getAvgTemp()) - 30));
+  unsigned long blinkPeriod = (60000 / ((7 * getAvgTemp()) - 30));
+  int BLINK_DURATION = 200;
   unsigned long now = millis();
-  if((now - blinkTime) >= blinkPeriod) {
-    digitalWrite(n, !digitalRead(n));
-    blinkTime += blinkPeriod;
+
+  if (digitalRead(n)) {
+    if ((now - blinkTime) >= BLINK_DURATION) {
+      digitalWrite(n, LOW);
+      blinkTime += BLINK_DURATION;
+    }
+  } else {
+    if ((now - blinkTime) >= blinkPeriod - BLINK_DURATION) {
+      digitalWrite(n, HIGH);
+      blinkTime += blinkPeriod - BLINK_DURATION;
+    }
   }
 }
