@@ -36,9 +36,10 @@ public class SerialComm {
 		
 		while (true) {
 			if (comm.available()) {
-				byte byte1 = comm.readByte();
-				byte byte2 = comm.readByte();
-				System.out.println((int) ((byte1 << 8) | byte2));
+				int byte1 = comm.readByte();
+				int byte2 = comm.readByte();
+				if (byte2 < 0) byte2 += 256;
+				System.out.println((byte1 << 8) | byte2);
 			}
 			
 		}
