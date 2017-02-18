@@ -16,9 +16,9 @@ void setup() {
 void loop() {
   unsigned long now = millis();
 
-  //sendDebug("java");
-  //sendDebug("arduino");
-  //sendDebug("hello world");
+  sendDebug("java");
+  sendDebug("arduino");
+  sendDebug("hello world");
   
   if (now - deltaTime >= deltaPeriod) {
     unsigned long nowTime = now;
