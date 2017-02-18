@@ -21,11 +21,13 @@ public class MsgReceiver {
 					
 					if (byteType == 0x30) {
 						System.out.print("Debug String");
-						int byte1 = port.readByte();
-						int byte2 = port.readByte();
-						if (byte2 < 0) byte2 += 256;
-						int stringLength = (byte1 << 8) | byte2;
+						int[] input = new int[2];
+						for (int i = 0; i < input.length; i++) {
+							input[i] = port.readByte();
+							if (input[i] < 0) input[i] += 256;
+						}
 						
+						int stringLength = (input[0] << 8) | input[1];
 						String byteString = "";
 						for (int i = 0; i < stringLength; i++) {
 							byte c = port.readByte();
@@ -37,82 +39,66 @@ public class MsgReceiver {
 						System.out.println(byteString);
 					} else if (byteType == 0x32) {
 						System.out.print("4-byte Integer");
-						int longLength = port.readByte();
-						if (longLength == 4) {
-							int byteInt = 0;
-							for (int i = 0; i < longLength; i++) {
-								int n = port.readByte();
-								if (n < 0) n += 256;
-								byteInt = (byteInt << 8) | n;
-							}
-							
-							System.out.println(byteInt);
-						} else System.out.println("CAN ONLY SEND 4 BYTES");
-
+						int[] input = new int[4];
+						for (int i = 0; i < input.length; i++) {
+							input[i] = port.readByte();
+							if (input[i] < 0) input[i] += 256;
+						}
+						
+						int byteInt = (input[0] << 24) | (input[1] << 16) | (input[2] << 8) | input[3];
+						System.out.println(byteInt);
 					} else if (byteType == 0x33) {
 						System.out.print("Potentiometer Reading");
-						int intLength = port.readByte();
-						if (intLength == 2) {
-							int byteInt = 0;
-							for (int i = 0; i < intLength; i++) {
-								int n = port.readByte();
-								if (n < 0) n += 256;
-								byteInt = (byteInt << 8) | n;
-							}
-							
-							System.out.println(byteInt);
-						} else System.out.println("CAN ONLY SEND 2 BYTES");
+						int[] input = new int[2];
+						for (int i = 0; i < input.length; i++) {
+							input[i] = port.readByte();
+							if (input[i] < 0) input[i] += 256;
+						}
 						
+						int byteShort = (input[0] << 8) | input[1];
+						System.out.println(byteShort);
 					} else if (byteType == 0x34) {
 						System.out.print("Raw Temperature Reading");
-						int intLength = port.readByte();
-						if (intLength == 2) {
-							int byteInt = 0;
-							for (int i = 0; i < intLength; i++) {
-								int n = port.readByte();
-								if (n < 0) n += 256;
-								byteInt = (byteInt << 8) | n;
-							}
-							
-							System.out.println(byteInt);
-						} else System.out.println("CAN ONLY SEND 2 BYTES");
+						int[] input = new int[2];
+						for (int i = 0; i < input.length; i++) {
+							input[i] = port.readByte();
+							if (input[i] < 0) input[i] += 256;
+						}
 						
+						int byteShort = (input[0] << 8) | input[1];
+						System.out.println(byteShort);
 					} else if (byteType == 0x35) {
 						System.out.print("Unfiltered Temperature Reading");
-						int tempLength = port.readByte();
-						if (tempLength == 4) {
-							int byteTemp = 0;
-							for (int i = 0; i < tempLength; i++) {
-								int n = port.readByte();
-								if (n < 0) n += 256;
-								byteTemp = (byteTemp << 8) | n;
-							}
-							
-							int s = ((byteTemp >> 31) == 0) ? 1 : -1;
-							int e = ((byteTemp >> 23) & 0xff);
-							int m = (e == 0) ? (byteTemp & 0x7fffff) << 1 : (byteTemp & 0x7fffff) | 0x800000;
-							
-							System.out.println((float)s * m * Math.pow(2, e - 150));
-						} else System.out.println("CAN ONLY SEND 4 BYTES");
+						int[] input = new int[4];
+						for (int i = 0; i < input.length; i++) {
+							input[i] = port.readByte();
+						}
 						
+						int byteFloat = (input[0] << 24) | (input[1] << 16) | (input[2] << 8) | input[3];
+						float byteTemp = Float.intBitsToFloat(byteFloat);
+						System.out.println(byteTemp);
+						
+//						int s = ((byteFloat >> 31) == 0) ? 1 : -1;
+//						int e = ((byteFloat >> 23) & 0xff);
+//						int m = (e == 0) ? (byteFloat & 0x7fffff) << 1 : (byteFloat & 0x7fffff) | 0x800000;
+//							
+//						System.out.println(s * m * Math.pow(2, e - 150));
 					} else if (byteType == 0x36) {
 						System.out.print("Filtered Temperature Reading");
-						int tempLength = port.readByte();
-						if (tempLength == 4) {
-							int byteTemp = 0;
-							for (int i = 0; i < tempLength; i++) {
-								int n = port.readByte();
-								if (n < 0) n += 256;
-								byteTemp = (byteTemp << 8) | n;
-							}
-							
-							int s = ((byteTemp >> 31) == 0) ? 1 : -1;
-							int e = ((byteTemp >> 23) & 0xff);
-							int m = (e == 0) ? (byteTemp & 0x7fffff) << 1 : (byteTemp & 0x7fffff) | 0x800000;
-							
-							System.out.println((float)s * m * Math.pow(2, e - 150));
-						} else System.out.println("CAN ONLY SEND 4 BYTES");
+						byte[] input = new byte[4];
+						for (int i = 0; i < input.length; i++) {
+							input[i] = port.readByte();
+						}
 						
+						int byteFloat = (input[0] << 24) | (input[1] << 16) | (input[2] << 8) | input[3];
+						float byteTemp = Float.intBitsToFloat(byteFloat);
+						System.out.println(byteTemp);
+						
+//						int s = ((byteFloat >> 31) == 0) ? 1 : -1;
+//						int e = ((byteFloat >> 23) & 0xff);
+//						int m = (e == 0) ? (byteFloat & 0x7fffff) << 1 : (byteFloat & 0x7fffff) | 0x800000;
+//							
+//						System.out.println(s * m * Math.pow(2, e - 150));
 					} else System.out.println("WRONG FORMAT OF DATA");
 				} else System.out.println("MESSAGE MUST START WITH '!'");
 			}

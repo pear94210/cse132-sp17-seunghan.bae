@@ -29,7 +29,7 @@ void loop() {
     deltaTime += deltaPeriod;
   }
 
-  if (now - tempTime >= tempTPeriod) {
+  if (now - tempTime >= tempPeriod) {
     int temp = analogRead(1);
     readTemp(temp);
     sendTempAD(temp);
@@ -53,7 +53,6 @@ void sendDebug(String s) {
 void sendMillis(unsigned long l) {
     Serial.write(0x21);
     Serial.write(0x32);
-    Serial.write(0x04);
     Serial.write((l >> 24) & 0xff);
     Serial.write((l >> 16) & 0xff);
     Serial.write((l >> 8) & 0xff);
@@ -63,7 +62,6 @@ void sendMillis(unsigned long l) {
 void sendPotentiometer(int pot) {
   Serial.write(0x21);
   Serial.write(0x33);
-  Serial.write(0x02);
   Serial.write((pot >> 8) & 0xff);
   Serial.write(pot & 0xff);
 }
@@ -71,7 +69,6 @@ void sendPotentiometer(int pot) {
 void sendTempAD(int temp) {
   Serial.write(0x21);
   Serial.write(0x34);
-  Serial.write(0x02);
   Serial.write((temp >> 8) & 0xff);
   Serial.write(temp & 0xff);
 }
@@ -82,7 +79,6 @@ void sendTempUnfiltered(int temp) {
   
   Serial.write(0x21);
   Serial.write(0x35);
-  Serial.write(0x04);
   Serial.write((rawBits >> 24) & 0xff);
   Serial.write((rawBits >> 16) & 0xff);
   Serial.write((rawBits >> 8) & 0xff);
@@ -95,7 +91,6 @@ void sendTempFiltered(int temp) {
   
   Serial.write(0x21);
   Serial.write(0x36);
-  Serial.write(0x04);
   Serial.write((rawBits >> 24) & 0xff);
   Serial.write((rawBits >> 16) & 0xff);
   Serial.write((rawBits >> 8) & 0xff);
@@ -103,7 +98,7 @@ void sendTempFiltered(int temp) {
 }
 
 void readTemp(int reading) {
-  float temperature = (reading * 110.0 / 1023) - 50;
+  float temperature = (reading * 500.0 / 1023) - 50;
   temperatures[count % FILTER_COUNTS] = temperature;
   count += 1;
 }
