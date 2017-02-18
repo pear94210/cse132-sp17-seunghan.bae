@@ -76,7 +76,7 @@ public class MsgReceiver {
 						}
 						
 						int byteFloat = (input[0] << 24) | (input[1] << 16) | (input[2] << 8) | input[3];
-						//System.out.println(String.format("%02x", byteFloat));
+						//For testing: System.out.println(String.format("%02x", byteFloat));
 						float byteTemp = Float.intBitsToFloat(byteFloat);
 						System.out.println(byteTemp);
 					} else if (byteType == 0x36) {
@@ -88,7 +88,7 @@ public class MsgReceiver {
 						}
 						
 						int byteFloat = (input[0] << 24) | (input[1] << 16) | (input[2] << 8) | input[3];
-						//System.out.println(String.format("%02x", byteFloat));
+						//For testing: System.out.println(String.format("%02x", byteFloat));
 						float byteTemp = Float.intBitsToFloat(byteFloat);
 						System.out.println(byteTemp);
 					} else System.out.println("WRONG FORMAT OF DATA");
