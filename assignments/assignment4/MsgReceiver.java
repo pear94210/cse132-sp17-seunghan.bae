@@ -18,80 +18,96 @@ public class MsgReceiver {
 			if (port.available()) {
 				if (port.readByte() == 0x21) {
 					byte byteType = port.readByte();
-								
-					if (byteType == 0x30) {
+					
+					switch (byteType) {
+					case 0x30:
 						System.out.print("Debug String: ");
-						int[] input = new int[2];
-						for (int i = 0; i < input.length; i++) {
-							input[i] = port.readByte();
-							if (input[i] < 0) input[i] += 256;
+						int[] input30 = new int[2];
+						for (int i = 0; i < input30.length; i++) {
+							input30[i] = port.readByte();
+							if (input30[i] < 0) input30[i] += 256;
 						}
-						
-						int stringLength = (input[0] << 8) | input[1];
-						String byteString = "";
+
+						int stringLength = (input30[0] << 8) | input30[1];
+						String byte30 = "";
 						for (int i = 0; i < stringLength; i++) {
 							byte c = port.readByte();
 							if (c >= 0x01 && c <= 0x7f) {
-								byteString = byteString + (char)c;
+								byte30 = byte30 + (char)c;
 							} else System.out.println("WRONG CHARACTER");
 						}
-						
-						System.out.println(byteString);
-					} else if (byteType == 0x32) {
+
+						System.out.println(byte30);
+						break;
+
+					case 0x32:
 						System.out.print("Timestamp: ");
-						int[] input = new int[4];
-						for (int i = 0; i < input.length; i++) {
-							input[i] = port.readByte();
-							if (input[i] < 0) input[i] += 256;
+						int[] input32 = new int[4];
+						for (int i = 0; i < input32.length; i++) {
+							input32[i] = port.readByte();
+							if (input32[i] < 0) input32[i] += 256;
 						}
-						
-						int byteInt = (input[0] << 24) | (input[1] << 16) | (input[2] << 8) | input[3];
-						System.out.println(byteInt);
-					} else if (byteType == 0x33) {
+
+						int byte32 = (input32[0] << 24) | (input32[1] << 16) | (input32[2] << 8) | input32[3];
+						System.out.println(byte32);
+						break;
+
+					case 0x33:
 						System.out.print("Potentiometer Reading: ");
-						int[] input = new int[2];
-						for (int i = 0; i < input.length; i++) {
-							input[i] = port.readByte();
-							if (input[i] < 0) input[i] += 256;
+						int[] input33 = new int[2];
+						for (int i = 0; i < input33.length; i++) {
+							input33[i] = port.readByte();
+							if (input33[i] < 0) input33[i] += 256;
 						}
-						
-						int byteShort = (input[0] << 8) | input[1];
-						System.out.println(byteShort);
-					} else if (byteType == 0x34) {
+
+						int byte33 = (input33[0] << 8) | input33[1];
+						System.out.println(byte33);
+						break;
+
+					case 0x34:
 						System.out.print("Raw Temperature Reading: ");
-						int[] input = new int[2];
-						for (int i = 0; i < input.length; i++) {
-							input[i] = port.readByte();
-							if (input[i] < 0) input[i] += 256;
+						int[] input34 = new int[2];
+						for (int i = 0; i < input34.length; i++) {
+							input34[i] = port.readByte();
+							if (input34[i] < 0) input34[i] += 256;
 						}
-						
-						int byteShort = (input[0] << 8) | input[1];
-						System.out.println(byteShort);
-					} else if (byteType == 0x35) {
+
+						int byte34 = (input34[0] << 8) | input34[1];
+						System.out.println(byte34);
+						break;
+
+					case 0x35:
 						System.out.print("Unfiltered Temperature Reading: ");
-						int[] input = new int[4];
-						for (int i = 0; i < input.length; i++) {
-							input[i] = port.readByte();
-							if (input[i] < 0) input[i] += 256;
+						int[] input35 = new int[4];
+						for (int i = 0; i < input35.length; i++) {
+							input35[i] = port.readByte();
+							if (input35[i] < 0) input35[i] += 256;
 						}
-						
-						int byteFloat = (input[0] << 24) | (input[1] << 16) | (input[2] << 8) | input[3];
-						//For testing: System.out.println(String.format("%02x", byteFloat));
-						float byteTemp = Float.intBitsToFloat(byteFloat);
-						System.out.println(byteTemp);
-					} else if (byteType == 0x36) {
+
+						int byte35Int = (input35[0] << 24) | (input35[1] << 16) | (input35[2] << 8) | input35[3];
+						//For testing: System.out.println(String.format("%02x", byte35));
+						float byte35 = Float.intBitsToFloat(byte35Int);
+						System.out.println(byte35);
+						break;
+
+					case 0x36:
 						System.out.print("Filtered Temperature Reading: ");
 						int[] input = new int[4];
 						for (int i = 0; i < input.length; i++) {
 							input[i] = port.readByte();
 							if (input[i] < 0) input[i] += 256;
 						}
-						
+
 						int byteFloat = (input[0] << 24) | (input[1] << 16) | (input[2] << 8) | input[3];
 						//For testing: System.out.println(String.format("%02x", byteFloat));
 						float byteTemp = Float.intBitsToFloat(byteFloat);
 						System.out.println(byteTemp);
-					} else System.out.println("WRONG FORMAT OF DATA");
+						break;
+
+					default:
+						System.out.println("WRONG FORMAT OF DATA");
+						break;
+					}
 				} else System.out.println("MESSAGE MUST START WITH '!'");
 			}
 		}
