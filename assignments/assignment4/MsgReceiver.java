@@ -18,7 +18,7 @@ public class MsgReceiver {
 			if (port.available()) {
 				if (port.readByte() == 0x21) {
 					byte byteType = port.readByte();
-					
+								
 					if (byteType == 0x30) {
 						System.out.print("Debug String: ");
 						int[] input = new int[2];
