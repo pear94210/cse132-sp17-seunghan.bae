@@ -50,6 +50,16 @@ void sendDebug(String s) {
   }
 }
 
+void sendError(String s) {
+  Serial.write(0x21);
+  Serial.write(0x31);
+  Serial.write((s.length() >> 8) & 0xff);
+  Serial.write(s.length() & 0xff);
+  for (int i = 0; i < s.length(); i++) {
+    Serial.write(s[i]);
+  }
+}
+
 void sendMillis(unsigned long l) {
     Serial.write(0x21);
     Serial.write(0x32);
@@ -64,6 +74,7 @@ void sendPotentiometer(int pot) {
   Serial.write(0x33);
   Serial.write((pot >> 8) & 0xff);
   Serial.write(pot & 0xff);
+  if (pot > 768) sendError("High Alarm");
 }
 
 void sendTempAD(int temp) {

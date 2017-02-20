@@ -39,6 +39,26 @@ public class MsgReceiver {
 
 						System.out.println(byte30);
 						break;
+						
+					case 0x31:
+						System.out.print("Error String: ");
+						int[] input31 = new int[2];
+						for (int i = 0; i < input31.length; i++) {
+							input31[i] = port.readByte();
+							if (input31[i] < 0) input31[i] += 256;
+						}
+
+						int errorLength = (input31[0] << 8) | input31[1];
+						String byte31 = "";
+						for (int i = 0; i < errorLength; i++) {
+							byte c = port.readByte();
+							if (c >= 0x01 && c <= 0x7f) {
+								byte31 = byte31 + (char)c;
+							} else System.out.println("WRONG CHARACTER");
+						}
+
+						System.out.println(byte31);
+						break;
 
 					case 0x32:
 						System.out.print("Timestamp: ");
@@ -85,7 +105,6 @@ public class MsgReceiver {
 						}
 
 						int byte35Int = (input35[0] << 24) | (input35[1] << 16) | (input35[2] << 8) | input35[3];
-						//For testing: System.out.println(String.format("%02x", byte35));
 						float byte35 = Float.intBitsToFloat(byte35Int);
 						System.out.println(byte35);
 						break;
@@ -99,13 +118,12 @@ public class MsgReceiver {
 						}
 
 						int byteFloat = (input[0] << 24) | (input[1] << 16) | (input[2] << 8) | input[3];
-						//For testing: System.out.println(String.format("%02x", byteFloat));
 						float byteTemp = Float.intBitsToFloat(byteFloat);
 						System.out.println(byteTemp);
 						break;
 
 					default:
-						System.out.println("WRONG FORMAT OF DATA");
+						System.out.println("UNDEFINED DATA TYPE");
 						break;
 					}
 				} else System.out.println("MESSAGE MUST START WITH '!'");
