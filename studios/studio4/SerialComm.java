@@ -31,6 +31,16 @@ public class SerialComm {
 		return byteArray[0];
 	}
 	
+	public byte writeByte(byte b) throws SerialPortException {		
+		if (debug) {
+			System.out.print("<0x" + String.format("%02x", b) + ">");
+		}
+		
+		port.writeByte(b);
+		
+		return b;
+	}
+	
 	public static void main(String[] args) throws SerialPortException {
 		SerialComm comm = new SerialComm("COM3");
 		
