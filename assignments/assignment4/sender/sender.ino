@@ -33,8 +33,8 @@ void loop() {
     int temp = analogRead(1);
     readTemp(temp);
     sendTempAD(temp);
-    sendTempUnfiltered(temp);
-    sendTempFiltered(temp);
+    sendTempUnfiltered();
+    sendTempFiltered();
     
     tempTime += tempPeriod;
   }
@@ -73,7 +73,7 @@ void sendTempAD(int temp) {
   Serial.write(temp & 0xff);
 }
 
-void sendTempUnfiltered(int temp) {
+void sendTempUnfiltered() {
   float tempUnfiltered = temperatures[(count-1) % FILTER_COUNTS];
   unsigned long rawBits = *(unsigned long *) &tempUnfiltered;
   
@@ -85,7 +85,7 @@ void sendTempUnfiltered(int temp) {
   Serial.write(rawBits & 0xff);
 }
 
-void sendTempFiltered(int temp) {
+void sendTempFiltered() {
   float tempFiltered = getAvgTemp();
   unsigned long rawBits = *(unsigned long *) &tempFiltered;
   
