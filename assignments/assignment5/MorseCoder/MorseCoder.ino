@@ -8,6 +8,8 @@ const int led = 13;
 //                  2) If the character is not a letter, the original value.
 char toUpper(char c) {
   // TODO
+  if (c >= 0x61 && c <= 0x7a) return (c - 0x20);
+  else return c;
 }
 
 void setup() {
@@ -18,6 +20,11 @@ void setup() {
 
 void convertIncomingCharsToMorseCode() {
   // TODO
+  if (Serial.available()) {
+    char input = Serial.read();
+    char* morse = morseEncode(input);
+    Serial.print(morse);
+  }
 }
 
 

@@ -1,5 +1,7 @@
 package assignment4;
 
+import java.nio.charset.StandardCharsets;
+
 import jssc.SerialPortException;
 import studio4.SerialComm;
 
@@ -27,17 +29,15 @@ public class MsgReceiver {
 							input30[i] = port.readByte();
 							if (input30[i] < 0) input30[i] += 256;
 						}
-
 						int stringLength = (input30[0] << 8) | input30[1];
-						String byte30 = "";
-						for (int i = 0; i < stringLength; i++) {
-							byte c = port.readByte();
-							if (c >= 0x01 && c <= 0x7f) {
-								byte30 = byte30 + (char)c;
-							} else System.out.println("WRONG CHARACTER");
+						
+						byte[] byte30 = new byte[stringLength];
+						for (int i = 0; i < byte30.length; i++) {
+							byte30[i] = port.readByte();
 						}
-
-						System.out.println(byte30);
+						String byte30String = new String(byte30, StandardCharsets.UTF_8);
+						
+						System.out.println(byte30String);
 						break;
 						
 					case 0x31:
@@ -47,17 +47,15 @@ public class MsgReceiver {
 							input31[i] = port.readByte();
 							if (input31[i] < 0) input31[i] += 256;
 						}
-
 						int errorLength = (input31[0] << 8) | input31[1];
-						String byte31 = "";
-						for (int i = 0; i < errorLength; i++) {
-							byte c = port.readByte();
-							if (c >= 0x01 && c <= 0x7f) {
-								byte31 = byte31 + (char)c;
-							} else System.out.println("WRONG CHARACTER");
+						
+						byte[] byte31 = new byte[errorLength];
+						for (int i = 0; i < byte31.length; i++) {
+							byte31[i] = port.readByte();
 						}
-
-						System.out.println(byte31);
+						String byte31String = new String(byte31, StandardCharsets.UTF_8);
+						
+						System.out.println(byte31String);
 						break;
 
 					case 0x32:
@@ -67,8 +65,8 @@ public class MsgReceiver {
 							input32[i] = port.readByte();
 							if (input32[i] < 0) input32[i] += 256;
 						}
-
 						int byte32 = (input32[0] << 24) | (input32[1] << 16) | (input32[2] << 8) | input32[3];
+						
 						System.out.println(byte32);
 						break;
 
@@ -79,8 +77,8 @@ public class MsgReceiver {
 							input33[i] = port.readByte();
 							if (input33[i] < 0) input33[i] += 256;
 						}
-
 						int byte33 = (input33[0] << 8) | input33[1];
+						
 						System.out.println(byte33);
 						break;
 
@@ -91,8 +89,8 @@ public class MsgReceiver {
 							input34[i] = port.readByte();
 							if (input34[i] < 0) input34[i] += 256;
 						}
-
 						int byte34 = (input34[0] << 8) | input34[1];
+						
 						System.out.println(byte34);
 						break;
 
@@ -103,23 +101,23 @@ public class MsgReceiver {
 							input35[i] = port.readByte();
 							if (input35[i] < 0) input35[i] += 256;
 						}
-
-						int byte35Int = (input35[0] << 24) | (input35[1] << 16) | (input35[2] << 8) | input35[3];
-						float byte35 = Float.intBitsToFloat(byte35Int);
-						System.out.println(byte35);
+						int byte35 = (input35[0] << 24) | (input35[1] << 16) | (input35[2] << 8) | input35[3];
+						float byte35Float = Float.intBitsToFloat(byte35);
+						
+						System.out.println(byte35Float);
 						break;
 
 					case 0x36:
 						System.out.print("Filtered Temperature Reading: ");
-						int[] input = new int[4];
-						for (int i = 0; i < input.length; i++) {
-							input[i] = port.readByte();
-							if (input[i] < 0) input[i] += 256;
+						int[] input36 = new int[4];
+						for (int i = 0; i < input36.length; i++) {
+							input36[i] = port.readByte();
+							if (input36[i] < 0) input36[i] += 256;
 						}
-
-						int byteFloat = (input[0] << 24) | (input[1] << 16) | (input[2] << 8) | input[3];
-						float byteTemp = Float.intBitsToFloat(byteFloat);
-						System.out.println(byteTemp);
+						int byte36 = (input36[0] << 24) | (input36[1] << 16) | (input36[2] << 8) | input36[3];
+						float byte36Float = Float.intBitsToFloat(byte36);
+						
+						System.out.println(byte36Float);
 						break;
 
 					default:
