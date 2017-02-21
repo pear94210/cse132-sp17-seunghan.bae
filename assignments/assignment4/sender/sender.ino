@@ -11,14 +11,13 @@ int count = 0;
 
 void setup() {
   Serial.begin(9600);
+  sendDebug("java");
+  sendDebug("arduino");
+  sendDebug("hello world");
 }
 
 void loop() {
   unsigned long now = millis();
-
-  sendDebug("java");
-  sendDebug("arduino");
-  sendDebug("hello world");
   
   if (now - deltaTime >= deltaPeriod) {
     unsigned long nowTime = now;

@@ -14,19 +14,20 @@ public class javaHexTX {
 		SerialComm port = new SerialComm("COM3");
 		
 		while(true) {
-			System.out.println("Input:");
+			System.out.println("Enter input:");
 			
 			BufferedReader sys = new BufferedReader(new InputStreamReader(System.in));
-			int input = (int)sys.read();
+			int input = sys.read();
 			if (input >= 48  && input <= 57) input -= 48;
 			else if (input >= 65 && input <= 70) input -= 55;
 			else if (input >= 97 && input <= 102) input -= 87;
 			else input = -1;
 			
 			if (input >= 0 && input <= 15) System.out.print(input);
-			else System.out.println("INVALID INPUT");
+			else System.out.print("INVALID INPUT");
 			
-			port.writeByte((byte)input);
+			port.writeByte((byte)3);
+			System.out.println();
 		}
 		
 	}
