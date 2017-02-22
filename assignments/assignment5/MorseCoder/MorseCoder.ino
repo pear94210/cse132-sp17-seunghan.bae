@@ -2,7 +2,8 @@
 
 const int led = 13;
 const unsigned long morsePeriod = 500;
-unsigned long morseTime = 0;
+unsigned long morseTime;
+unsigned long now2;
 
 // Argument: Any character
 // Return Value: Either:
@@ -33,24 +34,30 @@ void convertIncomingCharsToMorseCode() {
 }
 
 void ledMorse(String morse) {
+  morseTime = millis();
   if (morse == " ") {
-    delay(2000);
+    light(LOW, 4);
   } else {
     for (int i = 0; i < morse.length(); i++) {
       if (morse[i] == '.') {
-        digitalWrite(led, HIGH);
-        delay(500);
-        digitalWrite(led, LOW);
-        delay(500);
-      } else {
-        digitalWrite(led, HIGH);
-        delay(1500);
-        digitalWrite(led, LOW);
-        delay(500);
+        light(HIGH, 1);
+        light(LOW ,1);
+      } else if (morse[i] == '-') {
+        light(HIGH, 3);
+        light(LOW, 1);
       }
     }
-    delay(1000);
+    light(LOW, 2);
   }
+}
+
+void light(bool b, int n) {  
+  digitalWrite(led, b);
+  unsigned long now = millis();
+  if (now - morseTime >= (n * morsePeriod)) {
+    morseTime += (n * morsePeriod);
+    return;
+  } else light(b, n);
 }
 
 void loop() {
