@@ -17,16 +17,16 @@ public class javaHexTX {
 			System.out.println("Enter input:");
 			
 			BufferedReader sys = new BufferedReader(new InputStreamReader(System.in));
-			int input = sys.read();
-			if (input >= 48  && input <= 57) input -= 48;
-			else if (input >= 65 && input <= 70) input -= 55;
-			else if (input >= 97 && input <= 102) input -= 87;
+			byte input = (byte)sys.read();
+			if (input >= 0x30  && input <= 0x39) input -= 0x30;
+			else if (input >= 0x41 && input <= 0x46) input -= 0x37;
+			else if (input >= 0x61 && input <= 0x66) input -= 0x57;
 			else input = -1;
 			
 			if (input >= 0 && input <= 15) System.out.print(input);
 			else System.out.print("INVALID INPUT");
 			
-			port.writeByte((byte)3);
+			port.writeByte((byte)input);
 			System.out.println();
 		}
 		

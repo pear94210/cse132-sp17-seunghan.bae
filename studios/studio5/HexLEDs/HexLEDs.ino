@@ -19,10 +19,10 @@ void loop() {
     Serial.print((char)myVar);
     Serial.print(": ");
     
-    if (myVar >= 0x30 && myVar <= 0x39) myVar -= 0x30;
-    else if (myVar >= 0x41 && myVar <= 0x46) myVar -= 0x37;
-    else if (myVar >= 0x61 && myVar <= 0x66) myVar -= 0x57;
-    else myVar = -1;
+//    if (myVar >= 0x30 && myVar <= 0x39) myVar -= 0x30;
+//    else if (myVar >= 0x41 && myVar <= 0x46) myVar -= 0x37;
+//    else if (myVar >= 0x61 && myVar <= 0x66) myVar -= 0x57;
+//    else myVar = -1;
 
     if (myVar >= 0x00 && myVar <= 0x0f) Serial.println(myVar);
     numLED(myVar);
