@@ -52,11 +52,13 @@ public class Writeup {
 	 * - Wire resistor first, but location between the two does not matter
 	 * - Red-red-brown-gold = 220 +- 5% / yellow-orange-red-gold = 4300 +- 5%
 	 * 
-	 * 7 Digital inputs
+	 * 7 Digital inputs - Digitalinputs.ino 
 	 * 
-	 * 8 FSMs
+	 * 8 FSMs - FSMs.ino / FSMs.java
 	 * 
 	 * 9 Streams and communication
+	 * - available(), readByte(), writeByte()
+	 * - (0x21): beginning anchor of message, ignore bytes until magic number is received
 	 */
 	
 }
