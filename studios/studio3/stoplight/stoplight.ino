@@ -1,4 +1,4 @@
-// Name(s): Seunghan Bae
+ // Name(s): Seunghan Bae
 
 enum State {
   carGo,
