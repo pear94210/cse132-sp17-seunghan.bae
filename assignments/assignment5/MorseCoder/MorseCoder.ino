@@ -3,7 +3,6 @@
 const int led = 13;
 const unsigned long morsePeriod = 500;
 unsigned long morseTime;
-unsigned long now2;
 
 // Argument: Any character
 // Return Value: Either:
