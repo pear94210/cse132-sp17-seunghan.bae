@@ -4,6 +4,22 @@ const int led = 13;
 const unsigned long morsePeriod = 500;
 unsigned long morseTime;
 
+char input;
+String morse;
+int count;
+
+enum State {
+  start,
+  newChar,
+  dotOn,
+  dashOn,
+  Off,
+  charSpace,
+  wordSpace,
+};
+
+State ledState = start;
+
 // Argument: Any character
 // Return Value: Either:
 //                  1) If the character is a letter, the upper case equivalent.  
@@ -21,42 +37,75 @@ void setup() {
 
 
 void convertIncomingCharsToMorseCode() {
-  // TODO
-  if (Serial.available()) {
-    char input = Serial.read();
-    Serial.print(input);
-    Serial.print(": ");
-    String morse = morseEncode(input);
-    Serial.println(morse);
-    ledMorse(morse);
-  }
+  ledState = ledMorse(ledState);
 }
 
-void ledMorse(String morse) {
-  morseTime = millis();
-  if (morse == " ") {
-    light(LOW, 4);
-  } else {
-    for (int i = 0; i < morse.length(); i++) {
-      if (morse[i] == '.') {
-        light(HIGH, 1);
-        light(LOW ,1);
-      } else if (morse[i] == '-') {
-        light(HIGH, 3);
-        light(LOW, 1);
+State ledMorse(State state) {
+  switch (state) {
+    case start:
+      if (Serial.available()) {
+        input = Serial.read();
+        Serial.print(input);
+        Serial.print(": ");
+        morse = morseEncode(input);
+        Serial.println(morse);
+        morseTime = millis();
+        count = 0;
+        state = newChar;
       }
-    }
-    light(LOW, 2);
-  }
-}
+      break;
 
-void light(bool b, int n) {  
-  digitalWrite(led, b);
-  unsigned long now = millis();
-  if (now - morseTime >= (n * morsePeriod)) {
-    morseTime += (n * morsePeriod);
-    return;
-  } else light(b, n);
+    case newChar:
+      if (morse == " ") state = wordSpace;
+      else {
+        if (morse[count] == '.') state = dotOn;
+        else if (morse[count] == '-') state = dashOn;
+      }
+      break;
+    
+    case dotOn:
+      digitalWrite(led, HIGH);
+      if (millis() - morseTime >= morsePeriod) {
+        state = Off;
+        morseTime += morsePeriod;
+      }
+      break;
+
+    case dashOn:
+      digitalWrite(led, HIGH);
+      if (millis() - morseTime >= (3 * morsePeriod)) {
+        state = Off;
+        morseTime += (3 * morsePeriod);
+      }
+      break;
+
+    case Off:
+      digitalWrite(led, LOW);
+      if (millis() - morseTime >= morsePeriod) {
+        count++;
+        if (count == morse.length()) state = charSpace;
+        else state = newChar;
+        morseTime += morsePeriod;
+      }
+      break;
+
+    case charSpace:
+      digitalWrite(led, LOW);
+      if (millis() - morseTime >= (2 * morsePeriod)) {
+        state = start;
+        morseTime += (2 * morsePeriod);
+      }
+      break;
+
+    case wordSpace:
+      digitalWrite(led, LOW);
+      if (millis() - morseTime >= (4 * morsePeriod)) {
+        state = start;
+        morseTime += (4 * morsePeriod);
+      }
+      break;
+  }
+  return state;
 }
 
 void loop() {
