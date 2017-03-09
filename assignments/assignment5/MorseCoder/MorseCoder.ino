@@ -13,7 +13,7 @@ enum State {
   newChar,
   dotOn,
   dashOn,
-  Off,
+  off,
   charSpace,
   wordSpace,
 };
@@ -79,7 +79,7 @@ State ledMorse(State state) {
       }
       break;
 
-    case Off:
+    case off:
       digitalWrite(led, LOW);
       if (millis() - morseTime >= morsePeriod) {
         count++;
