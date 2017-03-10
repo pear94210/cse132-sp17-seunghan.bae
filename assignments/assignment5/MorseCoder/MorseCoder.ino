@@ -66,7 +66,7 @@ State ledMorse(State state) {
     case dotOn:
       digitalWrite(led, HIGH);
       if (millis() - morseTime >= morsePeriod) {
-        state = Off;
+        state = off;
         morseTime += morsePeriod;
       }
       break;
@@ -74,7 +74,7 @@ State ledMorse(State state) {
     case dashOn:
       digitalWrite(led, HIGH);
       if (millis() - morseTime >= (3 * morsePeriod)) {
-        state = Off;
+        state = off;
         morseTime += (3 * morsePeriod);
       }
       break;
