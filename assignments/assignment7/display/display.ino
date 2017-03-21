@@ -78,7 +78,7 @@ void upPressed() {
 
 void downPressed() {
   bool reading = analogRead(downButton);
-  Serial.println(reading);
+  Serial.print(reading);
   if (reading != lastDownState) downTime = millis();
 
   unsigned long now = millis();
