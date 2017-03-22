@@ -62,12 +62,11 @@ void upPressed() {
   Serial.println(reading);
   if (reading != lastUpState) upTime = millis();
 
-  unsigned long now = millis();
-  if (now - upTime >= buttonDelay) {
+  if (millis() - upTime >= buttonDelay) {
     if (reading != upState) {
       upState = reading;
       if (!upState) {
-        if (count == 95) count = 0;
+        if (count == 94) count = 0;
         else count++;
       }
     }
@@ -78,15 +77,14 @@ void upPressed() {
 
 void downPressed() {
   bool reading = analogRead(downButton);
-  Serial.print(reading);
+  Serial.println();
   if (reading != lastDownState) downTime = millis();
 
-  unsigned long now = millis();
-  if (now - downTime >= buttonDelay) {
+  if (millis() - downTime >= buttonDelay) {
     if (reading != downState) {
       downState = reading;
       if (!downState) {
-        if (count == 0) count = 95;
+        if (count == 0) count = 94;
         else count--;
       }
     }
