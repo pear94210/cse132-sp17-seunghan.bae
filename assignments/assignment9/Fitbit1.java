@@ -16,7 +16,7 @@ public class Fitbit1 {
 	public void run() throws SerialPortException {
 		while (true) {
 			if (port.available()) {
-				if (port.readByte() == 0x21) {
+				if (port.readByte() == 0x23) {
 					byte byteType = port.readByte();
 					
 					switch (byteType) {
@@ -58,39 +58,39 @@ public class Fitbit1 {
 						
 					case 0x32:
 						System.out.print("Step Counts: ");
-//						int[] input33 = new int[2];
-//						for (int i = 0; i < input33.length; i++) {
-//							input33[i] = port.readByte();
-//							if (input33[i] < 0) input33[i] += 256;
-//						}
-//						int byte33 = (input33[0] << 8) | input33[1];
-//						
-//						System.out.println(byte33);
-//						break;
-
-					case 0x33:
-						System.out.print("Sleep Time: ");
-//						int[] input34 = new int[2];
-//						for (int i = 0; i < input34.length; i++) {
-//							input34[i] = port.readByte();
-//							if (input34[i] < 0) input34[i] += 256;
-//						}
-//						int byte34 = (input34[0] << 8) | input34[1];
-//						
-//						System.out.println(byte34);
-//						break;
-
-					case 0x34:
-						System.out.print("Temperature: ");
 						int[] input32 = new int[4];
 						for (int i = 0; i < input32.length; i++) {
 							input32[i] = port.readByte();
 							if (input32[i] < 0) input32[i] += 256;
 						}
 						int byte32 = (input32[0] << 24) | (input32[1] << 16) | (input32[2] << 8) | input32[3];
-						float byte32Float = Float.intBitsToFloat(byte32);
 						
-						System.out.println(byte32Float);
+						System.out.println(byte32);
+						break;
+
+					case 0x33:
+						System.out.print("Sleep Time: ");
+						int[] input33 = new int[4];
+						for (int i = 0; i < input33.length; i++) {
+							input33[i] = port.readByte();
+							if (input33[i] < 0) input33[i] += 256;
+						}
+						int byte33 = (input33[0] << 24) | (input33[1] << 16) | (input33[2] << 8) | input33[3];
+					
+						System.out.println(byte33);
+						break;
+
+					case 0x34:
+						System.out.print("Temperature: ");
+						int[] input34 = new int[4];
+						for (int i = 0; i < input34.length; i++) {
+							input34[i] = port.readByte();
+							if (input34[i] < 0) input34[i] += 256;
+						}
+						int byte34 = (input34[0] << 24) | (input34[1] << 16) | (input34[2] << 8) | input34[3];
+						float byte34Float = Float.intBitsToFloat(byte34);
+						
+						System.out.println(byte34Float);
 						break;
 						
 					case 0x35:
@@ -110,7 +110,7 @@ public class Fitbit1 {
 						System.out.println("UNDEFINED DATA TYPE");
 						break;
 					}
-				} else System.out.println("MESSAGE MUST START WITH !(0x21)");
+				} else System.out.println("MESSAGE MUST START WITH #(0x23)");
 			}
 		}
 	}
