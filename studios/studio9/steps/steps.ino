@@ -17,7 +17,6 @@ void loop() {
     accel.read();
 //    printCalculatedAccels();
     printCount();
-    Serial.println();
   }
 }
 
@@ -26,7 +25,7 @@ void printCalculatedAccels() {
   Serial.print(",");
   Serial.print(accel.cy, 3);
   Serial.print(",");
-  Serial.print(accel.cz, 3);
+  Serial.println(accel.cz, 3);
 }
 
 void printCount() {
@@ -34,9 +33,9 @@ void printCount() {
   compare[1] = compare[2];
   compare[2] = accel.cz;
 
-  if ((compare[1] > compare[0]) && (compare[1] > compare[2]) && (compare[1] > 1)) {
+  if ((compare[1] > compare[0]) && (compare[1] > compare[2]) && (compare[1] > 1.4)) {
     count++;
-    Serial.print(count);
+    Serial.println(count);
   }
 }
 

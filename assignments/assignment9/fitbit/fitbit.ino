@@ -16,8 +16,10 @@ bool resetLastState = LOW;
 unsigned long resetDebTime = 0;
 
 bool mode = true;
-int modeLED = 13;
+int modeLed = 13;
 unsigned long stepCount = 0;
+unsigned long sleepCount = 0;
+unsigned long stepTime = 0;
 unsigned long sleepTime = 0;
 double compare[] = {0, 0, 0};
 double prev[] = {0, 0, 0};
@@ -30,6 +32,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(switchB, INPUT_PULLUP);
   pinMode(resetB, INPUT_PULLUP);
+  pinMode(modeLed, OUTPUT);
   accel.init();
 
   sendDebug("Fitbit");
@@ -39,7 +42,7 @@ void setup() {
 
 void loop() {
   switchMode();
-  digitalWrite(modeLED, mode);
+  digitalWrite(modeLed, mode);
   reset();
   
   if (mode) countStep();
@@ -64,8 +67,14 @@ void switchMode() {
       switchState = reading;
       if (!switchState) {
         mode = !mode;
-        if (mode) stepCount = 0;
-        else sleepTime = 0;
+        if (mode) {
+          stepCount = 0;
+          stepTime = millis();
+        }
+        else {
+          sleepCount = 0;
+          sleepTime = millis();
+        }
       }
     }
   }
@@ -82,7 +91,7 @@ void reset() {
       resetState = reading;
       if (!resetState) {
         if (mode) stepCount = 0;
-        else sleepTime = 0;
+        else sleepCount = 0;
       }
     }
   }
@@ -91,32 +100,36 @@ void reset() {
 }
 
 void countStep() {
-  if (accel.available()) {
-    accel.read();
+  if (millis() - stepTime >= 50) {
+    if (accel.available()) {
+      accel.read();
     
-    compare[0] = compare[1];
-    compare[1] = compare[2];
-    compare[2] = accel.cz;
+      compare[0] = compare[1];
+      compare[1] = compare[2];
+      compare[2] = accel.cz;
 
-    if ((compare[1] > compare[0]) && (compare[1] > compare[2]) && (compare[1] > 1)) stepCount++;
+      if ((compare[1] > compare[0]) && (compare[1] > compare[2]) && (compare[1] > 1.3)) stepCount++;
+    }
+    stepTime += 50;
   }
 }
 
 void countSleep() {
-  if (accel.available()) {
-    accel.read();
+  if (millis() - sleepTime >= 50) {
+    if (accel.available()) {
+      accel.read();
 
-    bool boolX = abs(accel.cx - prev[0]) < 0.1 ;
-    bool boolY = abs(accel.cy - prev[1]) < 0.1;
-    bool boolZ = abs(accel.cz - prev[2]) < 0.1;
+      bool boolX = abs(accel.cx - prev[0]) < 0.1;
+      bool boolY = abs(accel.cy - prev[1]) < 0.1;
+      bool boolZ = abs(accel.cz - prev[2]) < 0.1;
 
-    if (boolX && boolY && boolZ) {
-      if (millis() - sleepTime >= 10) sleepTime += 10;
+      if (boolX && boolY && boolZ) sleepCount += 50;
+
+      prev[0] = accel.cx;
+      prev[1] = accel.cy;
+      prev[2] = accel.cz;
     }
-
-    prev[0] = accel.cx;
-    prev[1] = accel.cy;
-    prev[2] = accel.cz;
+    sleepTime += 50;
   }
 }
 
@@ -152,10 +165,10 @@ void sendStep() {
 void sendSleep() {
   Serial.write(0x23);
   Serial.write(0x33);
-  Serial.write(sleepTime>> 24);
-  Serial.write(sleepTime >> 16);
-  Serial.write(sleepTime >> 8);
-  Serial.write(sleepTime);
+  Serial.write(sleepCount >> 24);
+  Serial.write(sleepCount >> 16);
+  Serial.write(sleepCount >> 8);
+  Serial.write(sleepCount);
 }
 
 void sendTemp() {
