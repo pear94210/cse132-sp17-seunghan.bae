@@ -70,8 +70,7 @@ void switchMode() {
         if (mode) {
           stepCount = 0;
           stepTime = millis();
-        }
-        else {
+        } else {
           sleepCount = 0;
           sleepTime = millis();
         }
@@ -90,8 +89,13 @@ void reset() {
     if (reading != resetState) {
       resetState = reading;
       if (!resetState) {
-        if (mode) stepCount = 0;
-        else sleepCount = 0;
+        if (mode) {
+          stepCount = 0;
+          stepTime = millis();
+        } else {
+          sleepCount = 0;
+          sleepTime = millis();
+        }
       }
     }
   }
