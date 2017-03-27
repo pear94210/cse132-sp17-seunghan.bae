@@ -10,7 +10,7 @@ public class CountSteps {
 		int count = 0;
 		double[] compare = {0, 0, 0};
 		
-		String directory = "C:/Users/Seunghan/git/cse132-sp17-seunghan.bae/studios/studio8/data/data.csv";
+		String directory = "C:/Users/Seunghan/git/cse132-sp17-seunghan.bae/studios/studio9/data/data.csv";
 		Scanner sc = new Scanner(new File(directory));
 		
 		while (sc.hasNext()) {
