@@ -21,6 +21,7 @@ unsigned long stepCount = 0;
 unsigned long sleepCount = 0;
 unsigned long stepTime = 0;
 unsigned long sleepTime = 0;
+bool threshold = true;
 double compare[] = {0, 0, 0};
 double prev[] = {0, 0, 0};
 
@@ -104,7 +105,7 @@ void reset() {
 }
 
 void countStep() {
-  if (millis() - stepTime >= 50) {
+  //if (millis() - stepTime >= 50) {
     if (accel.available()) {
       accel.read();
     
@@ -112,10 +113,17 @@ void countStep() {
       compare[1] = compare[2];
       compare[2] = accel.cz;
 
-      if ((compare[1] > compare[0]) && (compare[1] > compare[2]) && (compare[1] > 1.3)) stepCount++;
+      if (compare[1] <  0.7) threshold = true;
+
+      if (threshold) {
+        if ((compare[1] > compare[0]) && (compare[1] > compare[2]) && (compare[1] > 1.2)) {
+          stepCount++;
+          threshold = false;
+        }
+      }
     }
-    stepTime += 50;
-  }
+//    stepTime += 50;
+//  }
 }
 
 void countSleep() {
