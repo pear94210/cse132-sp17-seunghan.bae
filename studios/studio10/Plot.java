@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import javafx.scene.text.Font;
 import sedgewick.StdDraw;
 
 public class Plot {
