@@ -51,8 +51,15 @@ void loop() {
 
   unsigned long now = millis();
   if (now - deltaTime >= deltaPeriod) {
-    if (mode) sendStep();
-    else sendSleep();
+    
+    if (mode) {
+      sendStep();
+      if (stepCount < 0) sendError("NEGATIVE STEPS");
+    } else {
+      sendSleep();
+      if (sleepCount < 0) sendError("NEGATIVE SLEEP TIME");
+    }
+    
     sendTemp();
     sendRuntime(now);
     deltaTime += deltaPeriod;
