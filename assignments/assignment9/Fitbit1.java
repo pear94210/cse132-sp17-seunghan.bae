@@ -104,7 +104,6 @@ public class Fitbit1 {
 						
 						System.out.println(byte35);
 						break;
-						
 
 					default:
 						System.out.println("UNDEFINED DATA TYPE");

@@ -29,6 +29,9 @@ int tempSensor = 0;
 unsigned long deltaTime = 0;
 unsigned long deltaPeriod = 1000;
 
+float stepSpeed = 0;
+unsigned long stepStart = 0;
+
 void setup() {
   Serial.begin(9600);
   pinMode(switchB, INPUT_PULLUP);
@@ -55,6 +58,7 @@ void loop() {
     if (mode) {
       sendStep();
       if (stepCount < 0) sendError("NEGATIVE STEPS");
+      sendSpeed();
     } else {
       sendSleep();
       if (sleepCount < 0) sendError("NEGATIVE SLEEP TIME");
@@ -78,6 +82,7 @@ void switchMode() {
         if (mode) {
           stepCount = 0;
           stepTime = millis();
+          stepStart = millis();
         } else {
           sleepCount = 0;
           sleepTime = millis();
@@ -100,6 +105,7 @@ void reset() {
         if (mode) {
           stepCount = 0;
           stepTime = millis();
+          stepStart = millis();
         } else {
           sleepCount = 0;
           sleepTime = millis();
@@ -114,6 +120,8 @@ void reset() {
 void countStep() {
     if (accel.available()) {
       accel.read();
+
+      sendRawAccel(accel.cz);
     
       compare[0] = compare[1];
       compare[1] = compare[2];
@@ -207,5 +215,29 @@ void sendRuntime(unsigned long runtime) {
   Serial.write(runtime >> 16);
   Serial.write(runtime >> 8);
   Serial.write(runtime);
+}
+
+void sendRawAccel(float f) {
+  unsigned long longF = *(unsigned long *) &f;
+  
+  Serial.write(0x23);
+  Serial.write(0x36);
+  Serial.write(longF >> 24);
+  Serial.write(longF >> 16);
+  Serial.write(longF >> 8);
+  Serial.write(longF);
+}
+
+void sendSpeed() {
+  unsigned long walkedTime = millis() - stepStart;
+  stepSpeed = stepCount / walkedTime * 3.6; 
+  unsigned long longSpeed = *(unsigned long *) &stepSpeed;
+
+  Serial.write(0x23);
+  Serial.write(0x37);
+  Serial.write(longSpeed >> 24);
+  Serial.write(longSpeed >> 16);
+  Serial.write(longSpeed >> 8);
+  Serial.write(longSpeed);
 }
 
