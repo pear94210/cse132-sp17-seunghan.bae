@@ -1,5 +1,6 @@
 package assignment10;
 
+import java.awt.Color;
 import java.nio.charset.StandardCharsets;
 
 import jssc.SerialPortException;
@@ -17,7 +18,7 @@ public class Fitbit2 {
 	public static void main(String[] args) throws SerialPortException {
 		//drawGraph();
 		
-		Fitbit2 fitbit = new Fitbit2("COM3"); // FIXME
+		Fitbit2 fitbit = new Fitbit2("/dev/cu.usbserial-DN02B7PZ");
 		fitbit.run();
 	}
 	
@@ -103,7 +104,11 @@ public class Fitbit2 {
 						drawGraph();
 						drawSleep();
 						
+						StdDraw.setPenColor(Color.BLUE);
+						StdDraw.setPenRadius(StdDraw.getPenRadius() * 2);
 						for (int i3 = 0; i3 < index.length - 1; i3++) StdDraw.line(index[i3], sleep[i3] / 20000.0, index[i3 + 1], sleep[i3 + 1] / 20000.0);
+						StdDraw.setPenRadius(StdDraw.getPenRadius() / 2);
+						StdDraw.setPenColor(Color.BLACK);
 						
 						String sleepTime = "You slept for " + byte33 + "ms";
 						StdDraw.textLeft(0, -1, sleepTime);
@@ -161,9 +166,13 @@ public class Fitbit2 {
 						drawGraph();
 						drawStep();
 						
+						StdDraw.setPenColor(Color.RED);
+						StdDraw.setPenRadius(StdDraw.getPenRadius() * 5);
 						for (int i3 = 0; i3 < index.length; i3++) StdDraw.point(index[i3], accel[i3]);
+						StdDraw.setPenRadius(StdDraw.getPenRadius() / 5);
+						StdDraw.setPenColor(Color.BLACK);
 						
-						StdDraw.show();
+						//StdDraw.show();
 						
 						//System.out.println(byte36Float);
 						break;
@@ -225,7 +234,7 @@ public class Fitbit2 {
 	
 	public static void drawSleep() {
 		for (double d = 0.5; d <= 1.5; d += 0.5) {
-			StdDraw.textRight(-1, d, String.valueOf(d * 20));
+			StdDraw.textRight(-1, d, String.valueOf((int)(d * 20)));
 			StdDraw.line(0, d, 45, d);
 		}
 	}

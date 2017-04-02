@@ -40,8 +40,7 @@ void setup() {
   accel.init();
 
   sendDebug("Fitbit");
-  sendDebug("Mark.I");
-  sendDebug("...buy Apple Watch");
+  sendDebug("Mark.II");
 }
 
 void loop() {
@@ -118,6 +117,7 @@ void reset() {
 }
 
 void countStep() {
+  if (millis() - stepTime >= 50) {
     if (accel.available()) {
       accel.read();
 
@@ -136,6 +136,8 @@ void countStep() {
         }
       }
     }
+    stepTime += 50;
+  }
 }
 
 void countSleep() {
@@ -230,7 +232,7 @@ void sendRawAccel(float f) {
 
 void sendSpeed() {
   unsigned long walkedTime = millis() - stepStart;
-  stepSpeed = stepCount / walkedTime * 3.6; 
+  stepSpeed = (stepCount * 1.0 / walkedTime) * 3600000; 
   unsigned long longSpeed = *(unsigned long *) &stepSpeed;
 
   Serial.write(0x23);
