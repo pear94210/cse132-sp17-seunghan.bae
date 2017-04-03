@@ -23,9 +23,12 @@ public class Fitbit2 {
 	}
 	
 	public void run() throws SerialPortException {
-		int[] index = new int[45];
-		for (int i = 0; i < index.length; i++) index[i] = i;
-		double[] accel = new double[45];
+		int[] stepIndex = new int[900];
+		for (int i = 0; i < stepIndex.length; i++) stepIndex[i] = i;
+		double[] accel = new double[900];
+		
+		int[] sleepIndex = new int[45];
+		for (int i = 0; i < sleepIndex.length; i++) sleepIndex[i] = i;
 		int[] sleep = new int[45];
 		
 		while (true) {
@@ -105,9 +108,7 @@ public class Fitbit2 {
 						drawSleep();
 						
 						StdDraw.setPenColor(Color.BLUE);
-						StdDraw.setPenRadius(StdDraw.getPenRadius() * 2);
-						for (int i3 = 0; i3 < index.length - 1; i3++) StdDraw.line(index[i3], sleep[i3] / 20000.0, index[i3 + 1], sleep[i3 + 1] / 20000.0);
-						StdDraw.setPenRadius(StdDraw.getPenRadius() / 2);
+						for (int i3 = 0; i3 < sleepIndex.length - 1; i3++) StdDraw.line(sleepIndex[i3], sleep[i3] / 20000.0, sleepIndex[i3 + 1], sleep[i3 + 1] / 20000.0);
 						StdDraw.setPenColor(Color.BLACK);
 						
 						String sleepTime = "You slept for " + byte33 + "ms";
@@ -167,9 +168,7 @@ public class Fitbit2 {
 						drawStep();
 						
 						StdDraw.setPenColor(Color.RED);
-						StdDraw.setPenRadius(StdDraw.getPenRadius() * 5);
-						for (int i3 = 0; i3 < index.length; i3++) StdDraw.point(index[i3], accel[i3]);
-						StdDraw.setPenRadius(StdDraw.getPenRadius() / 5);
+						for (int i3 = 0; i3 < stepIndex.length - 1; i3++) StdDraw.line(stepIndex[i3] / 20.0, accel[i3], stepIndex[i3 + 1] / 20.0, accel[i3 + 1]);
 						StdDraw.setPenColor(Color.BLACK);
 						
 						//StdDraw.show();
