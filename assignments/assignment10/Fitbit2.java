@@ -261,7 +261,7 @@ public class Fitbit2 {
 	
 	public static void drawStep() {
 		for (double d = 0.5; d <= 1.5; d += 0.5) {
-			StdDraw.text(-5, 1, "accelerometer", 90);
+			StdDraw.text(-5, 1, "accelerometer (g)", 90);
 			StdDraw.textRight(-1, d, String.valueOf(d));
 			StdDraw.line(0, d, 45, d);
 		}
