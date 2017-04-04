@@ -1,4 +1,4 @@
-package week11;
+package assignment11;
 
 import java.io.InputStream;
 import java.io.DataInputStream;
