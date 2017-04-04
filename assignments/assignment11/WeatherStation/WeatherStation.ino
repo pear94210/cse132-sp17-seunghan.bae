@@ -15,3 +15,15 @@ void loop() {
   
 }
 
+toJava() {
+  
+}
+
+fromJava() {
+  
+}
+
+displayWeather() {
+  
+}
+
