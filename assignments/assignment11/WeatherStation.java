@@ -5,6 +5,8 @@ import java.io.DataInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import studio4.SerialComm;
+
 public class WeatherStation {
 
     public static void main(String[] args) throws Exception {
@@ -62,7 +64,8 @@ public class WeatherStation {
         // Using string manipulation tools, pull out the string between quotes after "icon:"
         // For example: "summary":"Clear","icon":"clear-day","nearestStormDistance":27
         // You should pull out JUST "clear-day"
-    	
+    	String[] split = s.split(",");
+    	String sub = split[5].substring(8, split[5].length() - 1);
 
         // You will set this char (in a switch statement) to one of the 5 types of weather. (Nothing TODO here)
         char weatherChar = '\0';
@@ -74,10 +77,18 @@ public class WeatherStation {
         // If the value if wind, set it to W
         // If the value is any of the clear ones, set it to S
         // If the value is any type of precipitation, set it to P
-        
+        if (sub.equals("cloudy") || sub.equals("partly-cloudy-day") || sub.equals("partly-cloudy-night")) weatherChar = 'C';
+        else if (sub.equals("fog")) weatherChar = 'F';
+        else if (sub.equals("wind")) weatherChar = 'W';
+        else if (sub.equals("clear-day") || sub.equals("clear-night")) weatherChar = 'S';
+        else weatherChar = 'P';
 
         // Now you're ready to implement this into your past code to send it to the Arduino.
         // You also have to make a couple modifications to handle the switch location requests from Arduino.
         // Choose three locations or more, but make sure one is Lopata Hall.
+        SerialComm port = new SerialComm("/dev/cu.usbserial-DN02B7PZ");
+        
+        port.writeByte((byte)0x37);
+        port.writeByte((byte)weatherChar);
     }
 }
