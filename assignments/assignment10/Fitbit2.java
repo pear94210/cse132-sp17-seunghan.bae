@@ -256,7 +256,7 @@ public class Fitbit2 {
 		StdDraw.line(0, 0, 0, 2);
 		StdDraw.setPenRadius(StdDraw.getPenRadius() / 2);
 		
-		StdDraw.text(21.5, -0.5, "time (ms)");
+		StdDraw.text(21.5, -0.5, "time (sec)");
 	}
 	
 	public static void drawStep() {
@@ -269,7 +269,7 @@ public class Fitbit2 {
 	
 	public static void drawSleep() {
 		for (double d = 0.5; d <= 1.5; d += 0.5) {
-			StdDraw.text(-5, 1, "sleep time (ms)", 90);
+			StdDraw.text(-5, 1, "sleep time (sec)", 90);
 			StdDraw.textRight(-1, d, String.valueOf((int)(d * 20)));
 			StdDraw.line(0, d, 45, d);
 		}
