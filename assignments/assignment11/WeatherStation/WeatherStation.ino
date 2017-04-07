@@ -9,6 +9,10 @@ int colNum = 0;
 const unsigned long frameLength = 20;
 unsigned long frameTime = 0;
 
+const unsigned long deltaPeriod = 60000;
+unsigned long deltaTime = 0;
+int currentN = 3;
+
 int x[] = {38.649196, 37.373422, 59.330147};
 int y[] = {-90.306099, 127.106715, 18.058155};
 
@@ -19,19 +23,32 @@ void setup() {
 }
 
 void loop() {
-  toJava(x[0], y[0]);
-//  toJava(x[1], y[1]);
-//  toJava(x[2], y[2]);
+  if (analogRead(0) < 341) toJava(0);
+  else if (analogRead(1) < 682) toJava(1);
+  else toJava(2);
 
   char weatherChar = fromJava();
   displayWeather(weatherChar);
 }
 
-void toJava(float x, float y) {
-  unsigned long longX = *(unsigned long *) &x;
-  unsigned long longY = *(unsigned long *) &y;
+void toJava(int n) {
+  unsigned long longX = *(unsigned long *) &x[n];
+  unsigned long longY = *(unsigned long *) &y[n];
 
-  
+  if ((n != currentN) || (millis() - deltaTime > deltaPeriod)) {
+    Serial.write(0x37);
+    Serial.write(longX >> 24);
+    Serial.write(longX >> 16);
+    Serial.write(longX >> 8);
+    Serial.write(longX);
+    Serial.write(longY >> 24);
+    Serial.write(longY >> 16);
+    Serial.write(longY >> 8);
+    Serial.write(longY);
+    
+    currentN = n;
+    deltaTime += deltaPeriod;
+  }
 }
 
 char fromJava() {
