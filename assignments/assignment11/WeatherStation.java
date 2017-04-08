@@ -22,27 +22,31 @@ public class WeatherStation {
 
         // Based on the name of the instance created above, call xx.sendGet().
         // This will test to the function we'll be creating below.
-    	if (port.available()) {
-    		if (port.readByte() == 0x23) {
-    			int[] xArray = new int[4];
-				for (int i = 0; i < xArray.length; i++) {
-					xArray[i] = port.readByte();
-					if (xArray[i] < 0) xArray[i] += 256;
-				}
-				
-				int[] yArray = new int[4];
-				for (int i = 0; i < yArray.length; i++) {
-					yArray[i] = port.readByte();
-					if (yArray[i] < 0) yArray[i] += 256;
-				}
-				
-				int byteX = (xArray[0] << 24) | (xArray[1] << 16) | (xArray[2] << 8) | xArray[3];
-				float x = Float.intBitsToFloat(byteX);
-				int byteY = (yArray[0] << 24) | (yArray[1] << 16) | (yArray[2] << 8) | yArray[3];
-				float y = Float.intBitsToFloat(byteY);
-				
-				ws.sendGet(x, y);
-    		}
+    	while (true) {
+    		if (port.available()) {
+        		if (port.readByte() == 0x21) {
+        			int[] xArray = new int[4];
+    				for (int i = 0; i < xArray.length; i++) {
+    					xArray[i] = port.readByte();
+    					if (xArray[i] < 0) xArray[i] += 256;
+    				}
+    				
+    				int[] yArray = new int[4];
+    				for (int i = 0; i < yArray.length; i++) {
+    					yArray[i] = port.readByte();
+    					if (yArray[i] < 0) yArray[i] += 256;
+    				}
+    				
+    				int byteX = (xArray[0] << 24) | (xArray[1] << 16) | (xArray[2] << 8) | xArray[3];
+    				float x = Float.intBitsToFloat(byteX);
+    				int byteY = (yArray[0] << 24) | (yArray[1] << 16) | (yArray[2] << 8) | yArray[3];
+    				float y = Float.intBitsToFloat(byteY);
+    				System.out.println();
+    				System.out.println(x);
+    				System.out.println(y);
+    				ws.sendGet(x, y);
+        		}
+        	}
     	}
 
     }
@@ -119,8 +123,9 @@ public class WeatherStation {
         // Now you're ready to implement this into your past code to send it to the Arduino.
         // You also have to make a couple modifications to handle the switch location requests from Arduino.
         // Choose three locations or more, but make sure one is Lopata Hall.
-        
-        port.writeByte((byte)0x37);
+        System.out.println(weatherChar);
+        port.writeByte((byte)0x21);
         port.writeByte((byte)weatherChar);
+        System.out.println();
     }
 }
