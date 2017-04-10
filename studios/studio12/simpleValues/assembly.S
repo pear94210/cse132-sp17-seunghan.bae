@@ -8,11 +8,25 @@
 
 .global giveMeMax
 giveMeMax:
-  ldi r24, 1 // Load the value 1 into register 24
+  ldi r24, 0xff // Load the value 0xff into register 24
   ret
 
- // Define further "functions" below:
- // .global functionName
- // functionName:
- //   *code*
- //   ret
+.global giveMeZero
+giveMeZero:
+  ldi r24, 0
+  ret
+
+.global addFour
+addFour:
+  call printRegs
+  ldi r18, 4
+  add r24, r18
+  call printRegs
+  ret
+
+.global turnOnLight
+turnOnLight:
+  sbi _SFR_IO_ADDR(DDRB), PIN5
+  sbi _SFR_IO_ADDR(PORTB), PIN5
+  cbi _SFR_IO_ADDR(PORTB), PIN5
+  ret

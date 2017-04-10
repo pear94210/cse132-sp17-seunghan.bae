@@ -9,15 +9,18 @@ void setup() {
 
   // Run the assembly functions
   byte a = giveMeMax();
-  //byte b = giveMeZero();
+  byte b = giveMeZero();
+  byte c = addFour(255);
 
   // Print the results from the assembly functions
   Serial.print("a = ");
   Serial.println(a);
-  //Serial.print("b = ");
-  //Serial.println(b);
-
-  /* add further code here */
+  Serial.print("b = ");
+  Serial.println(b);
+  Serial.print("c = ");
+  Serial.println(c);
+  
+  turnOnLight();
 
   // Makes sure you returned from all your functions:
   Serial.println("Ended setup!");

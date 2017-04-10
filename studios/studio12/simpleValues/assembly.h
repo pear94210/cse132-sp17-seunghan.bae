@@ -1,3 +1,5 @@
+#include "printRegs.h"
+
 // Function prototypes for assembly file.
 
 // Extern "C" prevents C++ name-mangling, so we're guaranteed that our compiled
