@@ -1,3 +1,5 @@
+#include "printRegs.h"
+
 // Function prototypes for assembly file.
 extern "C" {
   boolean hasAOne(byte num);
