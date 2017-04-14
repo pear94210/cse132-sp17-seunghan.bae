@@ -92,7 +92,7 @@ void testAdd4Int8() {
   int8_t bs[]   = {127, -1, -1, -128,  2, -1,  127,  10, -2,  4};
   int8_t cs[]   = {127, -1,  1, -128,  3,  1, -128,  10,  0,  8};
   int8_t ds[]   = {127, -1, -1, -128,  4,  2,  127, -40,  0, 16};
-  int results[] = {508, -4,  0, -512, 10,  0,  253,   0, -3, 30};  
+  int results[] = {508, -4,  0, -512, 10,  0,  253, -10, -3, 30};  
   const int numTests = sizeof(results)/sizeof(int);
   
   for (int i = 0; i < numTests; i++) {
