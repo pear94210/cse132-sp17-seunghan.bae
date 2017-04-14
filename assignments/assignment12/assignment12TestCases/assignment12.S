@@ -27,22 +27,18 @@ addInt8ToInt:
 .global add4Int8
 add4Int8:
   mov r26, r22
-  mov r27, r23
   call int8ToInt
   mov r22, r24
   mov r23, r25
   mov r24, r26
-  mov r25, r27
   call addInt8ToInt
   mov r22, r24
   mov r23, r25
   mov r24, r20
-  mov r25, r21
   call addInt8ToInt
   mov r22, r24
   mov r23, r25
   mov r24, r18
-  mov r25, r19
   call addInt8ToInt
   ret
 
