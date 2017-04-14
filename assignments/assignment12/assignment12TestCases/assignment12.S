@@ -28,16 +28,13 @@ addInt8ToInt:
 add4Int8:
   mov r26, r22
   call int8ToInt
-  mov r22, r24
-  mov r23, r25
+  movw r22, r24
   mov r24, r26
   call addInt8ToInt
-  mov r22, r24
-  mov r23, r25
+  movw r22, r24
   mov r24, r20
   call addInt8ToInt
-  mov r22, r24
-  mov r23, r25
+  movw r22, r24
   mov r24, r18
   call addInt8ToInt
   ret
