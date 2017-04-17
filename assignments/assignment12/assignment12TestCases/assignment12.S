@@ -2,7 +2,7 @@
 
 .global hasAOne
 hasAOne:
-  ori r24, 0
+  ori r24, 0x00
   ret
 
 .global byteToAscii
