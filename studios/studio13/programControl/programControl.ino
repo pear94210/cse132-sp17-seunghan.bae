@@ -105,7 +105,6 @@ void setup() {
   testSlowMultiply();
   testSlowExponent();
   
-  // Makes sure you returned from all your functions:
   Serial.println("Ended setup!");
 }
 
