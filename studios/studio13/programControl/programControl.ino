@@ -27,8 +27,6 @@ void testLessThan() {
   }  
 }
 
-// TODO: Include test for lessThanOrEqualUnsigned()
-/*
 void testLessThanOrEqualUnsigned() {
   byte x[]         = {4, 6, 4,   5, 255, 128, 127, 0, 250};
   byte y[]         = {6, 4, 4, 255,   5, 127, 128, 0, 250};
@@ -52,10 +50,6 @@ void testLessThanOrEqualUnsigned() {
   }  
 }
 
-// */
-
-// TODO: Include test for slowMultiply()
-/*
 void testSlowMultiply() {
   byte x[]         = { 4,  6,  4,   1,   6, 200,   1, 0, 0, 1};
   byte y[]         = { 6,  4,  4, 255,  40,   1, 200, 0, 1, 0};
@@ -79,11 +73,6 @@ void testSlowMultiply() {
   }  
 }
 
-// */
-
-
-// TODO: Include test for slowExponent()
-/*
 void testSlowExponent() {
   byte x[]         = { 4,  2,  3,  3,  6,   1,   1, 0,  8,   3,   2};
   byte y[]         = { 2,  4,  2,  3,  2, 210,   0, 1,  2,   5,   7};
@@ -107,19 +96,15 @@ void testSlowExponent() {
   }  
 }
 
-// */
-
 void setup() {
   Serial.begin(9600);
   Serial.println("Starting program...");
 
   // Test the functions
   testLessThan();
-
-  // TODO: Add in tests for remaining functions
-//  testLessThanOrEqualUnsigned();
-//  testSlowMultiply();
-//  testSlowExponent();
+  testLessThanOrEqualUnsigned();
+  testSlowMultiply();
+  testSlowExponent();
   
   // Makes sure you returned from all your functions:
   Serial.println("Ended setup!");
