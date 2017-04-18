@@ -17,7 +17,7 @@ void testHasAOne() {
       Serial.println("hasAOne() error on: 0");
   }
   // Test for errors with all other values
-  for (byte b = 0; b != 0; b++) {
+  for (byte b = 1; b != 0; b++) {
     if (hasAOne(b) == false) {
       Serial.print("hasAOne() error on: ");
       Serial.println(b);
@@ -127,7 +127,7 @@ void testAverage() {
   byte  as[]      = {0, 255, 127,  1, 0,   5,   0, 100, 200, 117};
   byte  bs[]      = {0, 255, 128,  0, 1, 100, 255, 200,  99, 231};
   byte  results[] = {0, 255, 127,  0, 0,  52, 127, 150, 149, 174};
-  const int numTests = sizeof(results)/sizeof(int);
+  const int numTests = sizeof(results)/sizeof(byte);
 
   for (int i = 0; i < numTests; i++) {
     byte a = as[i];
