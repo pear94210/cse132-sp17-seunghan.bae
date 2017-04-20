@@ -4,17 +4,29 @@
 
 
 uint16_t slowDivisionAlgorithm8(uint8_t dividend, uint8_t divisor) {
-  // TODO: Write a C-code version of division (don't use divide; use a loop with repeated subtraction!)  
+  uint16_t count = 0;
+  while (dividend >= divisor) {
+    count++;
+    dividend -= divisor;
+  }
+  return count;
 }
 
 
 uint8_t cStringLengthAlgorithm(const char aString[]) {
-   // TODO: Write a C-code version of the algorithm to find the string's length  
+  uint8_t length = 0;
+  while (aString[length] != 0) length++;
+  return length;
 }
 
 
 uint16_t slowDivisionAlgorithm16(uint16_t dividend, uint16_t divisor) {
-  // TODO: Write a C-code version of division (don't use divide; use a loop with repeated subtraction!)  
+  uint16_t count = 0;
+  while (dividend >= divisor) {
+    count++;
+    dividend -= divisor;
+  }
+  return count;
 }
 
 
@@ -67,7 +79,7 @@ void testCStringLength() {
     uint8_t assembly = cStringLength(string);
     uint8_t algorithm = cStringLengthAlgorithm(string);
     uint8_t expected = strlen(string);
-    pprintf("cStringLength(\"%s\") is %u algorithm) and %u (assembly) ; Should be %u", string, algorithm, assembly, expected);
+    pprintf("cStringLength(\"%s\") is %u (algorithm) and %u (assembly) ; Should be %u", string, algorithm, assembly, expected);
     // Compare the results of cStringLength() to the C libraries strlen()
     if(algorithm != expected) {
       Serial.print(" <- ERROR in Algorithm!");
@@ -228,7 +240,7 @@ void setup() {
 
   // Note: To uncomment a single "Simple Test", just change the "/*" to a "//*"
 
-  /* Simple Test
+  //* Simple Test
   uint8_t dividend8 = 175;
   uint8_t divisor8 = 26;
   uint8_t quotient8ASM = slowDivisionUint8(dividend8,divisor8);
@@ -238,7 +250,7 @@ void setup() {
   // Full Test:
   // testSlowDivisionUint8();
   
-  /* Simple Test
+  //* Simple Test
   const char *string = "Test Case";
   uint8_t strLenASM = cStringLength(string);
   uint8_t strLenAlg = cStringLengthAlgorithm(string);
@@ -256,15 +268,15 @@ void setup() {
   // Full Test:
   // testSumArray();
 
-  /* Simple Test
+  //* Simple Test
   uint16_t a = 1234;
   uint16_t b =  456;  
   pprintf("greaterThanOrEqualUInt16(%u,%u) is %u; Should be %u\n", a, b, greaterThanOrEqualUInt16(a,b), a>=b);
   // */
   // Full Test:
-  // testGreaterThanOrEqualUInt16();
+  testGreaterThanOrEqualUInt16();
 
-  /* Simple Test
+  //* Simple Test
   uint16_t dividend16 = 12356;
   uint16_t divisor16 = 123;
   uint16_t quotient16Alg = slowDivisionAlgorithm16(dividend16,divisor16);
