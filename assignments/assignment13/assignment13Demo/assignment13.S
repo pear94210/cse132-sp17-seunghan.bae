@@ -4,8 +4,6 @@
 
 .global slowDivisionUint8
 slowDivisionUint8:
-  ldi r26, 0x41
-  ldi r27, 0
   ldi r20, 0
 whileOne:
   cp r24, r22
@@ -20,12 +18,11 @@ exit_whileOne:
 
 .global cStringLength
 cStringLength:
-  ldi r26, lo8(cStringLength)
-  ldi r27, hi8(cStringLength)
+  movw r26, r24
   ldi r22, 0
 whileTwo:
   ld r18, X+
-  cp r18, 0
+  cp r18, r1
   breq exit_whileTwo
   inc r22
   jmp whileTwo
@@ -35,20 +32,20 @@ exit_whileTwo:
 
 .global sumArray
 sumArray:
-  ldi r26, lo8(sumArray)
-  ldi r27, hi8(sumArray)
+  movw r26, r24
   ldi r20, 0
+  ldi r21, 0
 whileThree:
-  cp r22, 0
+  cp r22, r1
   breq exit_whileThree
   dec r22
   ld r18, X+
+  ldi r19, 0
   add r20, r18
-  adc r21, 0
+  adc r21, r19
   jmp whileThree
 exit_whileThree:
-  mov r24, r20
-  mov r25, r21
+  movw r24, r20
   ret
 
 
@@ -58,7 +55,7 @@ greaterThanOrEqualUInt16:
   brlo false_body
   brne true_body
   cp r24, r22
-  brge true_body
+  brsh true_body
   ldi r24, 0
   jmp main_body
 true_body:
@@ -73,13 +70,31 @@ main_body:
 
 .global slowDivisionUint16
 slowDivisionUint16:
-  // TODO: uint16_t slowDivisionUint16(uint16_t a, uint16_t b)
+  ldi r20, 0
+  ldi r21, 0
+whileFour:
+  movw r18, r24
+  call greaterThanOrEqualUInt16
+  cp r24, r1
+  breq exit_whileFour
+  ldi r26, 1
+  add r20, r26
+  adc r21, r1
+  sub r18, r22
+  sbc r19, r23
+  movw r24, r18
+  jmp whileFour
+exit_whileFour:
+  movw r24, r20
   ret
 
 
 .global avgArray
 avgArray:
-  // TODO: uint16_t avgArray(uint8_t a[], uint8_t length)
+  movw r30, r22
+  call sumArray
+  movw r22, r30
+  call slowDivisionUint16
   ret
 
 

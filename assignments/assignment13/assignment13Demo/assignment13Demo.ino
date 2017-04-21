@@ -240,7 +240,7 @@ void setup() {
 
   // Note: To uncomment a single "Simple Test", just change the "/*" to a "//*"
 
-  //* Simple Test
+  /* Simple Test
   uint8_t dividend8 = 175;
   uint8_t divisor8 = 26;
   uint8_t quotient8ASM = slowDivisionUint8(dividend8,divisor8);
@@ -248,16 +248,16 @@ void setup() {
   pprintf("slowDivisionAlgorithm8(%u,%u) is %u (algorithm) and %u (assembly); Should be %u\n", dividend8, divisor8, quotient8Alg, quotient8ASM, dividend8/divisor8);
   // */ 
   // Full Test:
-  // testSlowDivisionUint8();
+  testSlowDivisionUint8();
   
-  //* Simple Test
+  /* Simple Test
   const char *string = "Test Case";
   uint8_t strLenASM = cStringLength(string);
   uint8_t strLenAlg = cStringLengthAlgorithm(string);
   pprintf("cStringLength(\"%s\") is %u (algorithm) and %u (assembly); Should be %u\n", string, strLenAlg, strLenASM, strlen(string));
   // */
   // Full Test:
-  // testCStringLength();
+  testCStringLength();
   
   /* Simple Test
   uint8_t array[] = { 1,2,3,4,5};
@@ -266,9 +266,9 @@ void setup() {
   pprintf("sumArray(...) is %u; Should be %u\n", sum, sumArrayAlgorithm(array, arrayLength));
   // */
   // Full Test:
-  // testSumArray();
+  testSumArray();
 
-  //* Simple Test
+  /* Simple Test
   uint16_t a = 1234;
   uint16_t b =  456;  
   pprintf("greaterThanOrEqualUInt16(%u,%u) is %u; Should be %u\n", a, b, greaterThanOrEqualUInt16(a,b), a>=b);
@@ -276,7 +276,7 @@ void setup() {
   // Full Test:
   testGreaterThanOrEqualUInt16();
 
-  //* Simple Test
+  /* Simple Test
   uint16_t dividend16 = 12356;
   uint16_t divisor16 = 123;
   uint16_t quotient16Alg = slowDivisionAlgorithm16(dividend16,divisor16);
@@ -284,13 +284,13 @@ void setup() {
   pprintf("slowDivisionUint16(%u,%u) is %u (algorithm) and %u (assembly); Should be %u\n", dividend16, divisor16, quotient16Alg, quotient16ASM, dividend16/divisor16);
   // */
   // Full Test:
-  // testSlowDivisonUint16();
+  testSlowDivisonUint16();
 
   /* Simple Test
   pprintf("avgArray(...) is %u; Should be %u\n", avgArray(array,arrayLength), sumArrayAlgorithm(array, arrayLength)/arrayLength);
   // */
   // Full Test:
-  // testAvgArray();
+  testAvgArray();
   Serial.println("Done with tests!!!");
 }
 
