@@ -13,7 +13,7 @@ public class Plot {
 		
 		createChart();
 		
-		String directory = "C:/Users/Seunghan/git/cse132-sp17-seunghan.bae/studios/studio9/data/data.csv";
+		String directory = "/Users/seunghan/git/cse132-sp17-seunghan.bae/studios/studio9/data/data.csv";
 		Scanner sc = new Scanner(new File(directory));
 		
 		int time = 0;
