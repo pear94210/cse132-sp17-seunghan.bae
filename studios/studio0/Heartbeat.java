@@ -5,7 +5,6 @@ public class Heartbeat {
 	public static void main(String[] args) {
 		
 		int n = 1;
-		
 		while(true) {
 			try {
 				Thread.sleep(1000);
