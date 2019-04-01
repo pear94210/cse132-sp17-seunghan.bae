@@ -1,7 +1,7 @@
 /******************************************************************************
 SparkFun_MMA8452Q.h
 SparkFun_MMA8452Q Library Header File
-Jim Lindblom @ SparkFun Electronics
+Jim Lindblom and Andrea DeVore @ SparkFun Electronics
 Original Creation Date: June 3, 2014
 https://github.com/sparkfun/MMA8452_Accelerometer
 
@@ -12,8 +12,8 @@ Development environment specifics:
 	IDE: Arduino 1.0.5
 	Hardware Platform: Arduino Uno
 
-	**Updated for Arduino 1.6.4 5/2015**
-	
+	**Updated for Arduino 1.8.5 2/2019**
+
 This code is beerware; if you see me (or any other SparkFun employee) at the
 local, and you've found our code helpful, please buy us a round!
 
@@ -24,11 +24,13 @@ Distributed as-is; no warranty is given.
 #define SparkFun_MMA8452Q_h
 
 #include <Arduino.h>
+#include <Wire.h>
 
 ///////////////////////////////////
 // MMA8452Q Register Definitions //
 ///////////////////////////////////
-enum MMA8452Q_Register {
+enum MMA8452Q_Register
+{
 	STATUS_MMA8452Q = 0x00,
 	OUT_X_MSB = 0x01,
 	OUT_X_LSB = 0x02,
@@ -76,45 +78,87 @@ enum MMA8452Q_Register {
 ////////////////////////////////
 // MMA8452Q Misc Declarations //
 ////////////////////////////////
-enum MMA8452Q_Scale {SCALE_2G = 2, SCALE_4G = 4, SCALE_8G = 8}; // Possible full-scale settings
-enum MMA8452Q_ODR {ODR_800, ODR_400, ODR_200, ODR_100, ODR_50, ODR_12, ODR_6, ODR_1}; // possible data rates
+enum MMA8452Q_Scale
+{
+	SCALE_2G = 2,
+	SCALE_4G = 4,
+	SCALE_8G = 8
+}; // Possible full-scale settings
+enum MMA8452Q_ODR
+{
+	ODR_800,
+	ODR_400,
+	ODR_200,
+	ODR_100,
+	ODR_50,
+	ODR_12,
+	ODR_6,
+	ODR_1
+}; // possible data rates
 // Possible portrait/landscape settings
 #define PORTRAIT_U 0
 #define PORTRAIT_D 1
 #define LANDSCAPE_R 2
 #define LANDSCAPE_L 3
 #define LOCKOUT 0x40
+#define MMA8452Q_DEFAULT_ADDRESS 0x1D
+
+// Posible SYSMOD (system mode) States
+#define SYSMOD_STANDBY 0b00
+#define SYSMOD_WAKE 0b01
+#define SYSMOD_SLEEP 0b10
 
 ////////////////////////////////
 // MMA8452Q Class Declaration //
 ////////////////////////////////
 class MMA8452Q
 {
-public:	
-    MMA8452Q(byte addr = 0x1D); // Constructor
-	
+  public:
+	MMA8452Q(byte addr = MMA8452Q_DEFAULT_ADDRESS); // Constructor
+	MMA8452Q_Scale scale;
+	MMA8452Q_ODR odr;
+
+	bool begin(TwoWire &wirePort = Wire, uint8_t deviceAddress = MMA8452Q_DEFAULT_ADDRESS);
 	byte init(MMA8452Q_Scale fsr = SCALE_2G, MMA8452Q_ODR odr = ODR_800);
-    void read();
+	void read();
 	byte available();
 	byte readTap();
 	byte readPL();
-	
-    short x, y, z;
+	byte readID();
+
+	short x, y, z;
 	float cx, cy, cz;
-private:
-	byte address;
-	MMA8452Q_Scale scale;
-	
+
+	short getX();
+	short getY();
+	short getZ();
+
+	float getCalculatedX();
+	float getCalculatedY();
+	float getCalculatedZ();
+
+	bool isRight();
+	bool isLeft();
+	bool isUp();
+	bool isDown();
+	bool isFlat();
+
+	void setScale(MMA8452Q_Scale fsr);
+	void setDataRate(MMA8452Q_ODR odr);
+
+  private:
+	TwoWire *_i2cPort = NULL; //The generic connection to user's chosen I2C hardware
+	uint8_t _deviceAddress;   //Keeps track of I2C address. setI2CAddress changes this.
+
 	void standby();
 	void active();
+	bool isActive();
 	void setupPL();
 	void setupTap(byte xThs, byte yThs, byte zThs);
-	void setScale(MMA8452Q_Scale fsr);
-	void setODR(MMA8452Q_ODR odr);
 	void writeRegister(MMA8452Q_Register reg, byte data);
-    void writeRegisters(MMA8452Q_Register reg, byte *buffer, byte len);
+	void writeRegisters(MMA8452Q_Register reg, byte *buffer, byte len);
 	byte readRegister(MMA8452Q_Register reg);
-    void readRegisters(MMA8452Q_Register reg, byte *buffer, byte len);
+	void readRegisters(MMA8452Q_Register reg, byte *buffer, byte len);
 };
 
 #endif
